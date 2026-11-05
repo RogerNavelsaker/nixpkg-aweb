@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - run: nix flake check --print-build-logs
+      - run: nix build .#aw .#aweb-a2a-gw --no-link --print-build-logs
+      - run: nix build .#aweb-image --out-link /tmp/aweb-image --print-build-logs
+      - run: nix build .#awid-image --out-link /tmp/awid-image --print-build-logs
