@@ -1,5 +1,14 @@
-# Aweb CLI and OCI image
+# Aweb CLI tools and OCI images
 
-Nix packaging for Aweb's `aw` CLI, `awid` service, and self-hosted stack. Source of truth: [Aweb self-hosting guide](https://github.com/awebai/aweb/blob/main/docs/self-hosting-guide.md).
+Nix packages for Aweb, pinned to upstream commit `e0d81e5a02dd663fc0f5a5054828dccab86c47b3` (2026-11-05).
 
-Packaging scaffold; pin an upstream release/commit and implement reproducible Go builds before publishing packages or an OCI image.
+## CLI builds
+
+```sh
+nix build .#aw
+nix build .#aweb-a2a-gw
+```
+
+The upstream Go test suite is disabled in these derivations: tests require `uv` and network DNS behavior unavailable in the Nix build sandbox. Flake evaluation and both binary builds pass. Runtime OCI images remain unimplemented.
+
+Source and runtime reference: [Aweb self-hosting guide](https://github.com/awebai/aweb/blob/main/docs/self-hosting-guide.md).
