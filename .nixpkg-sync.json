@@ -1,0 +1,9 @@
+{
+  "kind": "none",
+  "upstream": "https://github.com/awebai/aweb.git",
+  "version_file": "flake.nix",
+  "version_grep": "rev = \"[0-9a-f]{40}\"",
+  "pinned_paths": [],
+  "pinned_flake_regex": "rev = |vendorHash",
+  "sync_script": "bash scripts/sync-from-git-head.sh"
+}
