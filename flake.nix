@@ -32,8 +32,8 @@
       systems = [ "x86_64-linux" ];
       source = nixpkgs.legacyPackages.x86_64-linux.fetchFromGitHub {
         owner = "awebai"; repo = "aweb";
-        rev = "5c2ee7bad33ba0c103b661814e5d83ab50887bb7";
-        hash = "sha256-wRFRSxJzm3neEKKbQF5ZT6PVC1fFg0+ov1mZB1ZBCis=";
+        rev = "90519b0d21650a26ba8e53a0234992d3d63eb2be";
+        hash = "sha256-RwT5aGSnjkEtBnJ5bi4T8TV6QloNLS//vhJIfNiYP6s=";
       };
       buildCli = pkgs: { pname, subPackage }: pkgs.buildGoModule {
         inherit pname; version = "unstable-2026-11-27"; src = source;
@@ -85,8 +85,8 @@
                 };
               };
             in { inherit environment image; };
-          awebService = mkService { name = "aweb"; root = "server"; program = "aweb"; port = 8000; revision = "5c2ee7bad33ba0c103b661814e5d83ab50887bb7"; };
-          awidService = mkService { name = "awid"; root = "awid"; program = "awid"; port = 8010; revision = "5c2ee7bad33ba0c103b661814e5d83ab50887bb7"; };
+          awebService = mkService { name = "aweb"; root = "server"; program = "aweb"; port = 8000; revision = "90519b0d21650a26ba8e53a0234992d3d63eb2be"; };
+          awidService = mkService { name = "awid"; root = "awid"; program = "awid"; port = 8010; revision = "90519b0d21650a26ba8e53a0234992d3d63eb2be"; };
         in {
           packages = { inherit aw aweb-a2a-gw; aweb-image = awebService.image; awid-image = awidService.image; default = aw; };
           checks = { aweb-image = awebService.image; awid-image = awidService.image; };
