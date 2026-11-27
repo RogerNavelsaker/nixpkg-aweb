@@ -15,3 +15,9 @@ sed -i -E \
   -e "s/unstable-[0-9]{4}-[0-9]{2}-[0-9]{2}/unstable-$date/g" flake.nix
 sed -i -E "s/unstable-[0-9]{4}-[0-9]{2}-[0-9]{2}/unstable-$date/g" .github/workflows/publish.yml
 echo "bumped $old -> $new"
+# Refresh Go vendorHash: build with a fake hash and read the real one from the mismatch.
+fake="sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+oldvh=$(grep -oE 'vendorHash = "sha256-[^"]+"' flake.nix | head -n1 | sed -E 's/.*"([^"]+)"/\1/')
+sed -i "s|$oldvh|$fake|" flake.nix
+newvh=$(nix build .#aw --no-link --accept-flake-config 2>&1 | awk '/got:/{print $2; exit}' || true)
+[ -n "$newvh" ] && sed -i "s|$fake|$newvh|" flake.nix || { sed -i "s|$fake|$oldvh|" flake.nix; echo "vendorHash unchanged"; }

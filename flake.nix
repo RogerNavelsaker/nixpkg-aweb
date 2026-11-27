@@ -32,13 +32,13 @@
       systems = [ "x86_64-linux" ];
       source = nixpkgs.legacyPackages.x86_64-linux.fetchFromGitHub {
         owner = "awebai"; repo = "aweb";
-        rev = "e0d81e5a02dd663fc0f5a5054828dccab86c47b3";
-        hash = "sha256-8m7aAUszPREmqaPBj7IlYDNcJuvLsN46jj7l68trEUg=";
+        rev = "5c2ee7bad33ba0c103b661814e5d83ab50887bb7";
+        hash = "sha256-wRFRSxJzm3neEKKbQF5ZT6PVC1fFg0+ov1mZB1ZBCis=";
       };
       buildCli = pkgs: { pname, subPackage }: pkgs.buildGoModule {
-        inherit pname; version = "unstable-2026-11-05"; src = source;
+        inherit pname; version = "unstable-2026-11-27"; src = source;
         sourceRoot = "source/cli/go";
-        vendorHash = "sha256-U1rzmQ+oqKY3alYD1gsh4ZWJtFhKDJXd5wkxC7EPIs8=";
+        vendorHash = "sha256-VA2GEjPDUaQySEW1V3O2GeI7tX58llVepDMZz7D7rmc=";
         subPackages = [ subPackage ]; doCheck = false; ldflags = [ "-s" "-w" ];
       };
       mkPythonSet = pkgs: root:
@@ -60,7 +60,7 @@
               python = mkPythonSet pkgs root;
               environment = python.set.mkVirtualEnv "${name}-environment" python.workspace.deps.default;
               image = pkgs.dockerTools.buildLayeredImage {
-                inherit name; tag = "unstable-2026-11-05"; maxLayers = 10;
+                inherit name; tag = "unstable-2026-11-27"; maxLayers = 10;
                 contents = [ environment pkgs.python312 pkgs.dockerTools.fakeNss pkgs.cacert pkgs.tzdata ];
                 fakeRootCommands = ''
                   mkdir -p ./tmp ./app
@@ -85,8 +85,8 @@
                 };
               };
             in { inherit environment image; };
-          awebService = mkService { name = "aweb"; root = "server"; program = "aweb"; port = 8000; revision = "e0d81e5a02dd663fc0f5a5054828dccab86c47b3"; };
-          awidService = mkService { name = "awid"; root = "awid"; program = "awid"; port = 8010; revision = "e0d81e5a02dd663fc0f5a5054828dccab86c47b3"; };
+          awebService = mkService { name = "aweb"; root = "server"; program = "aweb"; port = 8000; revision = "5c2ee7bad33ba0c103b661814e5d83ab50887bb7"; };
+          awidService = mkService { name = "awid"; root = "awid"; program = "awid"; port = 8010; revision = "5c2ee7bad33ba0c103b661814e5d83ab50887bb7"; };
         in {
           packages = { inherit aw aweb-a2a-gw; aweb-image = awebService.image; awid-image = awidService.image; default = aw; };
           checks = { aweb-image = awebService.image; awid-image = awidService.image; };
