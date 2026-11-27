@@ -1,5 +1,5 @@
 {
-  "kind": "none",
+  "kind": "git-head",
   "upstream": "https://github.com/awebai/aweb.git",
   "version_file": "flake.nix",
   "version_grep": "rev = \"[0-9a-f]{40}\"",

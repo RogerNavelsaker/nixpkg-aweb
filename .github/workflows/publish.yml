@@ -35,8 +35,8 @@ jobs:
           printf '%s' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USER" --password-stdin
           for image in "$AWEB_IMAGE" "$AWID_IMAGE"; do
             name="${image##*/}"
-            docker tag "$name:unstable-2026-11-05" "$image:latest"
-            docker tag "$name:unstable-2026-11-05" "$image:sha-${GITHUB_SHA::7}"
+            docker tag "$name:unstable-2026-11-27" "$image:latest"
+            docker tag "$name:unstable-2026-11-27" "$image:sha-${GITHUB_SHA::7}"
             docker push "$image:latest"
             docker push "$image:sha-${GITHUB_SHA::7}"
           done
